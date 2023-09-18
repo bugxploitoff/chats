@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3001');
+const socket = io('https://cdn.pwnme.in');
 
 export default function Home() {
   const [userUUID, setUserUUID] = useState(null);
@@ -33,29 +33,47 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      {userUUID ? (
-        <div>
-          <div>
-            {messages.map((msg, index) => (
-              <div key={index}>{msg}</div>
-            ))}
-          </div>
-          <input
-            type="text"
-            placeholder="Recipient UUID"
-            value={recipientUUID}
-            onChange={(e) => setRecipientUUID(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button onClick={sendMessage}>Send</button>
+    <div className="flex h-screen">
+    <div className="w-1/2 bg-gray-100 p-4">
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold">Your Messages</h2>
+        <div className="border-t border-gray-300 mt-2 py-2">
+          {messages.map((msg, index) => (
+            <div key={index} className="mb-2">
+              {msg}
+            </div>
+          ))}
         </div>
-      ) : null}
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="Recipient UUID"
+          value={recipientUUID}
+          onChange={(e) => setRecipientUUID(e.target.value)}
+          className="w-full border border-gray-300 rounded p-2 mb-2"
+        />
+        <input
+          type="text"
+          placeholder="Message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="w-full border border-gray-300 rounded p-2 mb-2"
+        />
+        <button
+          onClick={sendMessage}
+          className="bg-blue-500 text-white rounded-full py-2 px-4 hover:bg-blue-600"
+        >
+          Send
+        </button>
+      </div>
     </div>
+    <div className="w-1/2 bg-gray-200 p-4">
+      <h2 className="text-lg font-semibold">Connected Users</h2>
+      <div className="border-t border-gray-300 mt-2 py-2">
+        {/* Display the connected users here */}
+      </div>
+    </div>
+  </div>
   );
 }
